@@ -21,9 +21,8 @@ class MySQLdataMngr():
    
   def addData(self, dataBaseTable, values):
     fooVal = ",".join(values)
-    foo = " ".join(["INSERT INTO ", dataBaseTable, "VALUES (", fooVal, ")"])
     with self.DBcon:
-      self.cur.execute(foo)
+      self.cur.execute(" ".join(["INSERT INTO ", dataBaseTable, "VALUES (", fooVal, ")"]))
       
 # FUNCTIONS
 # function getAM2302 gets the humidity and temperature data from the sensor and provides them with a timestamp 
@@ -41,7 +40,6 @@ def main():
   
   # start measuring
   while True: 
-    # keep data for the last two hours in memory
     timeStamp, temp, hum = getAM2302()
     dataBase.addData("yourTable", (str(timeStamp), str(temp), str(hum)))
     time.sleep(60)
